@@ -8,6 +8,11 @@ var timer = setInterval(gameLoop, fps);
 //This is an event listener:
 document.addEventListener('keydown',press);
 
+var x = 50;
+var y = 50;
+var moveAmountX = 10;
+var moveAmountY = 10;
+
 var w = false;
 var a = false;
 var s = false;
@@ -38,14 +43,14 @@ function release(event){
     //gives us the keycode of every keypress
     console.log(event.keycode);
 
-    if(event.keyCode == 87){w = true}
-    if(event.keyCode == 65){a = true}
-    if(event.keyCode == 83){s = true}
-    if(event.keyCode == 68){d = true}
-    if(event.keyCode == 38){up = true}
-    if(event.keyCode == 40){down = true}
-    if(event.keyCode == 37){left = true}
-    if(event.keyCode == 39){right = true}
+    if(event.keyCode == 87){w = false}
+    if(event.keyCode == 65){a = false}
+    if(event.keyCode == 83){s = false}
+    if(event.keyCode == 68){d = false}
+    if(event.keyCode == 38){up = false}
+    if(event.keyCode == 40){down = false}
+    if(event.keyCode == 37){left = false}
+    if(event.keyCode == 39){right = false}
 }
 
 class GameObject{
@@ -57,7 +62,8 @@ class GameObject{
         this.endAngle = 2 * Math.PI;
         this.vx = 0;
         this.vy = 0;
-        this.color = "lightblue"
+        this.friction = 0.8;
+        this.color = "skyblue"
     }
 
     drawObj(){
@@ -67,7 +73,7 @@ class GameObject{
         //Sets 0,0 cords in the middle of the canvas
         ctx.translate(this.x, this.y);
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle);
+        ctx.arc(0, 0, this.radius, this.startAngle, this.endAngle);
         ctx.closePath();
         ctx.fill();
         //Restores canvas to original properties
@@ -75,18 +81,52 @@ class GameObject{
     }
 
     move(){
-        this.x = this.x + this.vx;
-        this.y = this.y + this.vy;
+        this.vx = this.vx * this.friction;
+        this.vy = this.vy * this.friction;
+        this.x += this.vx;
+        this.y += this.vy;
     }
 
-    
+   
 }
 
 var player = new GameObject();
+
+var speed = 10;
 
     //This is our game loop
     function gameLoop(){
         //Clears canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        x += moveAmountX;
+        y += moveAmountY;
+    
+        if(x > canvas.width - 50){
+            //make square come out other side
+            moveAmountX *= -1;
+    
+        }
+
+        if(x < 50){
+            moveAmountX *= -1;
+        }
+    
+        if(y < 50){
+            moveAmountY *= -1;
+        }
+    
+        if(y > canvas.height - 50){
+            moveAmountY *= -1;
+        }
+
+        if(a == true){player.vx = -speed}
+        if(d == true){player.vx = speed}
+        if(w == true){player.vy = -speed}
+        if(s == true){player.vy = speed}
+
+        player.move();
+
+        //Draws player
         player.drawObj();
     }
