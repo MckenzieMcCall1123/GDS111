@@ -18,6 +18,21 @@ player.friction = 0.1;
 var playerSpeed = 75;
 
 
+//generate enemies
+var enemies = [];
+var numberOfEnemies = 20;
+
+//Creates our collection of enemies
+for(var i=0; i<numberOfEnemies; i++){
+    enemies[i] = new GameObject();
+    enemies[i].color = "red";
+    enemies[i].w = 15;
+    enemies[i].h = 15;
+    enemies[i].x = rand(0, c.width);
+    enemies[i].y = rand(0, c.height);
+
+}
+
 /*--------------main()------------------------
 This is the function that makes the game work
 ---------------------------------------------*/
@@ -40,8 +55,14 @@ function main()
     //Any collision detection 
 
     //draw the pictures
+    for(var i=0; i<enemies.length; i++){
+        enemies[i].render();
+    }
+    
     player.move();
     player.render();
+
+    
 }
 
 //random number generator
