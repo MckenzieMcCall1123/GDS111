@@ -13,7 +13,9 @@ var timer = setInterval(main, fps)
 
 /*------------Declare Variables Here--------*/
 
-
+var player = new GameObject();
+player.friction = 0.1;
+var playerSpeed = 75;
 
 
 /*--------------main()------------------------
@@ -27,9 +29,19 @@ function main()
 
     //Any changes to numbers
 
+    if(a==true || left==true){player.vx = -playerSpeed;}
+    if(d==true || right==true){player.vx = playerSpeed;}
+    if(w==true || up==true){player.vy = -playerSpeed;}
+    if(s==true || down==true){player.vy = playerSpeed;}
+
+    player.vx *= player.friction;
+    player.vy *= player.friction;
+
     //Any collision detection 
 
     //draw the pictures
+    player.move();
+    player.render();
 }
 
 //random number generator

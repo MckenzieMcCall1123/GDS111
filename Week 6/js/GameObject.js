@@ -16,6 +16,8 @@ class GameObject
      this.vy=0;
     //object color
      this.color = `hotpink`  
+     //object friction
+     this.friction = 0;
 
      
     }
