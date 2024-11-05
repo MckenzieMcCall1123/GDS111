@@ -12,6 +12,10 @@ var timer = setInterval(main, fps)
 var score = 0;
 
 
+//start = 0, game = 1, gameOver = 2
+var gameScenes = ["start", "game", "gameOver"];
+var currentScene = gameScenes[1];
+
 /*------------Declare Variables Here--------*/
 
 var player = new GameObject();
@@ -40,12 +44,34 @@ for(var i=0; i<numberOfEnemies; i++){
 This is the function that makes the game work
 ---------------------------------------------*/
 
-function main()
-{
+function main(){
     //erases the screen
-    ctx.clearRect(0,0,c.width,c.height); 
+    ctx.clearRect(0,0,c.width,c.height);
+    switch(currentScene){
+        case "start":
+            console.log(currentScene);
+            ctx.font = "69px Arial";
+            ctx.fillText(`Play My Game`, c.width/2 - 200, c.height/2);
+            break;
+        case "game":
+            console.log(currentScene);
+            game();
+            break;
+        case "cameOver":
+            console.log(currentScene);
+            ctx.font = "69px Arial";
+            ctx.fillText(`You Win!`, c.width/2 - 200, c.height/2);
+            break;
+        
+    }
 
-    //Any changes to numbers
+   
+     
+
+}
+
+
+function game(){
 
     if(a==true || left==true){player.vx = -playerSpeed;}
     if(d==true || right==true){player.vx = playerSpeed;}
@@ -101,13 +127,16 @@ function main()
 
         
     }
+
+
+
     
     player.move();
     player.render();
     ctx.font = "69px Arial";
-    ctx.fillText(`Score: ${score}`, 200, 150);
-    
+    ctx.fillText(`Score: ${score}`, 250, 50);
 }
+
 
 //random number generator
 function rand(_low, _high)
