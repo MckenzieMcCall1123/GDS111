@@ -9,13 +9,13 @@ class GameObject
      //object angle
      this.angle = 0;
      //object dimensions
-     this.w=100;
-     this.h=100;
+     this.w=50;
+     this.h=50;
      //object velocity
      this.vx=0;
      this.vy=0;
     //object color
-     this.color = `hotpink`  
+     this.color = 'hotpink'
      //object friction
      this.friction = 0;
 

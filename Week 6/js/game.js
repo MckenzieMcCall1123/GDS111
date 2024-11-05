@@ -9,25 +9,28 @@ var c = document.querySelector(`canvas`)
 var ctx = c.getContext(`2d`)
 var fps = 1000/60
 var timer = setInterval(main, fps)
+var score = 0;
 
 
 /*------------Declare Variables Here--------*/
 
 var player = new GameObject();
 player.friction = 0.1;
-var playerSpeed = 75;
+var playerSpeed = 100;
 
 
 //generate enemies
 var enemies = [];
-var numberOfEnemies = 20;
+var numberOfEnemies = 10;
 
 //Creates our collection of enemies
 for(var i=0; i<numberOfEnemies; i++){
     enemies[i] = new GameObject();
     enemies[i].color = "red";
-    enemies[i].w = 15;
-    enemies[i].h = 15;
+    enemies[i].w = 25;
+    enemies[i].h = 25;
+    enemies[i].vy = 3;
+    //enemies[i].vx = 3;
     enemies[i].x = rand(0, c.width);
     enemies[i].y = rand(0, c.height);
 
@@ -56,12 +59,53 @@ function main()
 
     //draw the pictures
     for(var i=0; i<enemies.length; i++){
+        enemies[i].move();
         enemies[i].render();
+        //reset when off screen from bottom
+        if(enemies[i].y > c.height + enemies[i].h){
+            enemies[i].y = rand(-c.height, 0);
+            enemies[i].x = rand(0, c.width);
+
+            if(enemies[i].vy == 3){
+                if(score > 0){
+                    score--;   
+                }
+            }
+
+            
+            //console.log(enemies[i].x, enemies[i].y);
+
+            //enemies[i].vy = -3;
+        }
+
+        
+
+
+        //reset enemies from top screen
+        if(enemies[i].y < - enemies[i].h){
+            enemies[i].y = rand(-c.height, 0);
+            enemies[i].x = rand(0, c.width);
+            
+
+            if(enemies[i].vy == -3){
+                score++;  
+                enemies[i].vy = 3;
+            }
+
+        }
+
+
+        if(player.overlaps(enemies[i])){
+            enemies[i].vy = -3;
+        }
+
+        
     }
     
     player.move();
     player.render();
-
+    ctx.font = "69px Arial";
+    ctx.fillText(`Score: ${score}`, 200, 150);
     
 }
 
@@ -81,6 +125,10 @@ function degrees(_rad)
 {
     return _rad * 180/Math.PI
 }
+
+
+
+
 /*-------Diagram--------
 
                /|        c = the hypoteneuse
