@@ -16,6 +16,9 @@ var score = 0;
 var gameScenes = ["start", "game", "gameOver"];
 var currentScene = gameScenes[1];
 
+var sadHamster = document.getElementById("SadHamster");
+var elGato = document.getElementById("ElGato");
+
 /*------------Declare Variables Here--------*/
 
 var player = new GameObject();
@@ -31,8 +34,8 @@ var numberOfEnemies = 10;
 for(var i=0; i<numberOfEnemies; i++){
     enemies[i] = new GameObject();
     enemies[i].color = "red";
-    enemies[i].w = 25;
-    enemies[i].h = 25;
+    enemies[i].w = 100;
+    enemies[i].h = 100;
     enemies[i].vy = 3;
     //enemies[i].vx = 3;
     enemies[i].x = rand(0, c.width);
@@ -86,7 +89,8 @@ function game(){
     //draw the pictures
     for(var i=0; i<enemies.length; i++){
         enemies[i].move();
-        enemies[i].render();
+        //enemies[i].render();
+        enemies[i].renderImage(sadHamster);
         //reset when off screen from bottom
         if(enemies[i].y > c.height + enemies[i].h){
             enemies[i].y = rand(-c.height, 0);
@@ -132,7 +136,7 @@ function game(){
 
     
     player.move();
-    player.render();
+    player.renderImage(elGato);
     ctx.font = "69px Arial";
     ctx.fillText(`Score: ${score}`, 250, 50);
 }
